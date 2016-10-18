@@ -1,0 +1,40 @@
+{% extends 'blog/base.html' %}
+{% block content %}
+
+    {% for post in posts %}
+        <div class="post">
+            <div class="date">
+                {% if post.published_date %}
+                    {{ post.published_date |date:'M d, Y'}}
+                {% endif %}
+            </div>
+            <h3><a href="{% url 'post_detail' pk=post.pk %}">{{ post.title }}</a></h3>
+            <p>
+                {% if post.category %}
+                    <a class="post-category post-category-js" href="{% url 'search_tag' tag=post.category %}"><span class="glyphicon glyphicon-tag"></span>{{ post.category|title }}</a>
+                {% endif %}
+            </p>
+            <p>{{ post.text|safe|linebreaks|truncatewords:5 }}</p>
+            <a class="pure-button" href="{% url 'post_detail' pk=post.pk %}">Read More >>> </a>
+        </div>
+        <DIV style="BORDER-TOP: #d2d2d2 1px dashed; OVERFLOW: hidden; HEIGHT: 1px"></DIV>
+        <br>
+    {% endfor %}
+
+    {% if page %}
+        <div class="pagination">
+            <span class="step-links">
+                {% if posts.has_previous %}
+                    <a href="?page={{ posts.previous_page_number }}">previous</a>
+                {% endif %}
+                <span class="current">
+                    Page {{ posts.number }} of {{ posts.paginator.num_pages }}.
+                </span>
+                {% if posts.has_next %}
+                    <a href="?page={{ posts.next_page_number }}">next</a>
+                {% endif %}
+            </span>
+        </div>
+    {% endif %}
+
+{% endblock content %}

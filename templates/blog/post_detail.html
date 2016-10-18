@@ -1,0 +1,35 @@
+{% extends 'blog/base.html' %}
+
+{% block content %}
+    <div class="date">
+        {% if post.published_date %}
+            {{ post.published_date|date:'M d, Y' }}
+        {% else %}
+            <a class="btn btn-default" href="{% url 'post_publish' pk=post.pk %}">Publish</a>
+        {% endif %}
+        <a class="btn btn-default" href="{% url 'post_edit' pk=post.pk %}"><span class="glyphicon glyphicon-edit"></span></a>
+        <a class="btn btn-default" href="{% url 'post_remove' pk=post.pk %}"><span class="glyphicon glyphicon-trash"></span></a>
+    </div>
+    <h3>{{ post.title }}</h3>
+    {% if post.category %}
+        <a class="post-category post-category-js" href="{% url 'search_tag' tag=post.category %}">
+            <span class="glyphicon glyphicon-tag"></span>{{ post.category|title }}</a>
+    {% endif %}
+    <p>{{ post.text|safe|linebreaks }}</p>
+
+    {% if post.published_date %}
+{#        <DIV style="BORDER-TOP: #d2d2d2 1px solid; OVERFLOW: hidden; HEIGHT: 1px"></DIV>#}
+        {% if before_page %}
+            <div style="float: left"><a href="{% url 'post_detail' pk=before_page.pk %}">
+                <span class="glyphicon glyphicon-chevron-left"></span>上一篇：{{ before_page.title }}</a></div>
+        {% endif %}
+
+        {% if after_page %}
+            <div style="float: right"><a href="{% url 'post_detail' pk=after_page.pk %}">
+                下一篇：{{ after_page.title }}<span class="glyphicon glyphicon-chevron-right"></span></a></div>
+        {% endif %}
+
+        {% include "blog/duoshuo.html" %}
+    {% endif %}
+
+{% endblock %}

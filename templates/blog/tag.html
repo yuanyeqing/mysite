@@ -1,0 +1,23 @@
+{% extends "blog/base.html" %}
+
+{% block pagetitle %}
+  {% for post in post_list %}
+  <title>{{ post.category }}</title>
+  {% endfor %}
+{% endblock %}
+
+{% block content %}
+  <div class="blog-post">
+    {% for post in post_list %}
+        <div class="date">{{ post.published_date |date:'M d, Y'}}</div>
+        <h3 class="blog-post-title"><a href="{% url 'post_detail' pk=post.pk %}">{{ post.title }}</a></h3>
+        <p>
+            <a class="post-category post-category-js" href="{% url 'search_tag' tag=post.category %}">
+                <span class="glyphicon glyphicon-tag"></span>{{ post.category|title }}</a>
+        </p>
+        <p>{{ post.text|safe|linebreaks|truncatewords:5 }}</p>
+        <a class="pure-button" href="{% url 'post_detail' pk=post.pk %}">Read More >>> </a>
+      <br><br><br><br>
+    {% endfor %}
+  </div><!-- /.blog-post -->
+{% endblock %}
