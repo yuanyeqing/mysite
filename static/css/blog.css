@@ -41,3 +41,10 @@ h1, h2, h3, h4 {
     color: #000000;
 }
 
+.nav-pills > li.active > a {
+    /*color: #fff;*/
+    background-color: #1f71e0
+}
+.nav-pills > li.active > a:hover, .nav-pills > li.active > a:focus {
+    background-color: #2d88e0
+}

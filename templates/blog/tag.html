@@ -1,11 +1,5 @@
 {% extends "blog/base.html" %}
 
-{% block pagetitle %}
-  {% for post in post_list %}
-  <title>{{ post.category }}</title>
-  {% endfor %}
-{% endblock %}
-
 {% block content %}
   <div class="blog-post">
     {% for post in post_list %}
