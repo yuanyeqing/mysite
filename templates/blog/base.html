@@ -19,6 +19,16 @@
     <link rel="shortcut icon" href="{% static 'img/favicon.ico' %}">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta name="description" content="A blog for study of Python-Django, H.265/HEVC, depth map and image processing.">
+
+    <style type="text/css">
+        .fixed_div{
+        position:fixed;
+        right:100px;
+        bottom:100px;
+{#        width:20px;#}
+{#        height: 20px;#}
+        }
+    </style>	
 </head>
 
 
@@ -89,6 +99,13 @@
         </div>
     </div>
 
+	<div class="fixed_div">
+        <a id="gotop" href="#" onclick="MGJS.goTop();return false;">
+            <button type="button" class="btn btn-default btn-lg" style="font-size: 20px">
+                <span class="glyphicon glyphicon-arrow-up"></span>
+            </button>
+        </a>
+    </div>
 
 </body>
 
