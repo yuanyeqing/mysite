@@ -10,7 +10,9 @@
                 <span class="glyphicon glyphicon-tag"></span>{{ post.category|title }}</a>
         </p>
         <p>{{ post.text|safe|linebreaks|truncatewords:3 }}</p>
-        <a class="pure-button" href="{% url 'post_detail' pk=post.pk %}">Read More >>> </a>
+        <div style="float: right">
+            <a class="pure-button" href="{% url 'post_detail' pk=post.pk %}">阅读更多 >>> </a>
+        </div>
       <br><br><br><br>
     {% endfor %}
   </div><!-- /.blog-post -->
