@@ -1,3 +1,15 @@
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+#container {
+    min-height: 100%;
+    height: auto !important;
+    height: 100%;
+}
+
 .page-header {
     background-color: #1f71e0;
     margin-top: 0;
@@ -14,6 +26,7 @@
     margin-left: 120px;
     margin-right: 120px;
     margin-bottom: 50px;
+    padding-bottom: 40px;/*高度等于footer的高度*/
 }
 h1, h2, h3, h4 {
     font-family: 'Lobster', cursive;
@@ -48,3 +61,31 @@ h1, h2, h3, h4 {
 .nav-pills > li.active > a:hover, .nav-pills > li.active > a:focus {
     background-color: #2d88e0
 }
+
+/* footer START */
+#footer {
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    display: block;
+    height: 40px; /*脚部的高度*/
+    /*border: 1px solid #CCC;*/
+    font-size: 11px;
+    line-height: 100%;
+    width: 100%;
+
+    position: absolute;
+    bottom: 0;
+    clear:both;
+}
+
+#footer a {
+    color: #2A2A2A;
+}
+
+#copyright {
+    margin-bottom: auto;
+    margin-left: 50%;
+}
+/* footer END */
