@@ -4,7 +4,7 @@
   <div class="blog-post">
     {% for post in post_list %}
         <div class="date">{{ post.published_date |date:'M d, Y'}}</div>
-        <h3 class="blog-post-title"><a href="{% url 'post_detail' pk=post.pk %}">{{ post.title }}</a></h3>
+        <h5 class="blog-post-title"><a href="{% url 'post_detail' pk=post.pk %}">{{ post.title }}</a></h5>
         <p>
             <a class="post-category post-category-js" href="{% url 'search_tag' tag=post.category %}">
                 <span class="glyphicon glyphicon-tag"></span>{{ post.category|title }}</a>
