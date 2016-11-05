@@ -94,3 +94,7 @@ html, body {
     margin-left: 50%;
 }
 /* footer END */
+
+pre, code{
+    background-color: #ebffe4; /*代码段背景色*/
+}
