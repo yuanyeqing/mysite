@@ -17,7 +17,7 @@
             <p>
                 {% if post.category %}
                     <a class="post-category post-category-js" href="{% url 'search_tag' tag=post.category %}">
-                        <font color="#737373"><span class="glyphicon glyphicon-tag"></span></font>{{ post.category|title }}
+                        <span class="glyphicon glyphicon-tag"></span>{{ post.category|title }}
                     </a>
                 {% endif %}
             </p>
