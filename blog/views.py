@@ -174,7 +174,7 @@ def blog_search(request):
         if not s:
             return render(request,'blog/post_list.html')
         else:
-            post_list = Article.objects.filter(title__icontains = s)
+            post_list = Article.objects.filter(title__icontains = s).order_by('-published_date')
             if len(post_list) == 0 :
                 return render(request, 'blog/search.html', {'post_list': post_list, 'error': True})
             else:
