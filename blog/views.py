@@ -183,7 +183,13 @@ def blog_search(request):
     return redirect('/')
 
 def date_list():
-    date_list = Article.objects.datetimes('published_date', 'month', order='DESC')
+    # date_list = Article.objects.datetimes('published_date', 'month', order='DESC')
+    postsAll = Article.objects.annotate(num_comment=Count('id')).filter(
+        published_date__isnull=False).order_by('-published_date')
+    year_month_list = [(p.published_date.year, p.published_date.month) for p in postsAll]
+    year_month_dict = Counter(year_month_list)
+    date_list = [(key[0], key[1], year_month_dict[key]) for key in year_month_dict]
+    date_list.sort(reverse=True)
     return date_list
 
 def date_archives(request, y, m):

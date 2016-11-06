@@ -88,7 +88,7 @@
                     <br><br>
 
                     <div>
-                        <p><strong><span class="glyphicon glyphicon-star-empty"></span> 标签分类</strong></p>
+                        <p>&nbsp&nbsp&nbsp&nbsp<strong><span class="glyphicon glyphicon-star-empty"></span> 标签分类</strong></p>
                         <DIV style="BORDER-TOP: #d2d2d2 1px solid; OVERFLOW: hidden; HEIGHT: 1px"></DIV>
                         <ul>
                         {% for x in tags %}
@@ -100,12 +100,13 @@
                     </div>
                     <br><br>
                     <div>
-                        <p><strong><span class="glyphicon glyphicon-time"></span> 日期存档</strong></p>
+                        <p>&nbsp&nbsp&nbsp&nbsp<strong><span class="glyphicon glyphicon-time"></span> 日期存档</strong></p>
                         <DIV style="BORDER-TOP: #d2d2d2 1px solid; OVERFLOW: hidden; HEIGHT: 1px"></DIV>
                         <ul>
                         {% for d in date_list %}
                             <li class="post-category post-category-js">
-                                <a href="{% url 'date_archives' y=d.year m=d.month %}">{{ d |date:'Y年m月' }}</a>
+                                <a href="{% url 'date_archives' y=d.0 m=d.1 %}">{{ d.0 }}年{{ d.1 }}月</a>
+                                <font color="#a9a9a9"> ({{d.2}})</font>
                             </li>
                         {% endfor %}
                         </ul>
