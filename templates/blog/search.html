@@ -3,9 +3,9 @@
 {% block content %}
 <div class="posts">
     {% if error %}
-        <h3 class="post-title">没有相关文章题目 :(</h3>
+        <h4 class="post-title"><font color="#a9a9a9">没有相关文章题目 :(</font></h4>
     {% else %}
-	    <h3 class="post-title">搜索词:<font color="#a52a2a"><strong> {{ s }}</strong></font>&nbsp 搜索到{{ post_num }}篇文章</h3>
+        <h4 class="post-title"><font color="#a9a9a9">搜索词:<font color="#E08478"><strong> {{ s }}</strong></font>&nbsp 搜索到{{ post_num }}篇文章</font></h4>
         <br>
         {% for post in post_list %}
             <div class="date">

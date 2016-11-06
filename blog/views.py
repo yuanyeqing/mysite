@@ -145,7 +145,8 @@ def search_tag(request, tag):
             pp.text = markdown2.markdown(pp.text, extras=['fenced-code-blocks'], )
     except Article.DoesNotExist:
         raise Http404
-    return render(request, 'blog/tag.html', {'post_list': post_list, 'tags': get_tags(), 'date_list': date_list()})
+    return render(request, 'blog/tag.html', {'post_list': post_list, 'tag': tag,
+                                             'tags': get_tags(), 'date_list': date_list()})
 
 
 class RSSFeed(Feed):
@@ -161,7 +162,7 @@ class RSSFeed(Feed):
     def item_description(self, item):
         return item.text
     def item_link(self, item):
-        return reverse('post_detail',args=[item.id])
+        return reverse('post_detail', args=[item.id])
 
 
 def blog_search(request):
@@ -198,5 +199,5 @@ def date_archives(request, y, m):
         published_date__month=m).order_by('-published_date')
     for pp in posts:
         pp.text = markdown2.markdown(pp.text, extras=['fenced-code-blocks'], )
-    return render(request, 'blog/post_list.html', {'posts': posts, 'list_header': '{0}年{1}月 存档'.format(y, m),
+    return render(request, 'blog/post_list.html', {'posts': posts, 'list_header': True, 'year': y, 'month': m,
                                                    'tags': get_tags(), 'date_list': date_list()})

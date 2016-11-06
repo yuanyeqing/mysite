@@ -1,6 +1,10 @@
 {% extends "blog/base.html" %}
 
 {% block content %}
+    <h4 class="post-title">
+        <font color="#a9a9a9">正在查看 <font color="#E08478"><strong>{{ tag }}</strong></font> 分类下的文章</font>
+    </h4>
+    <br>
   <div class="blog-post">
     {% for post in post_list %}
         <div class="date">{{ post.published_date |date:'M d, Y'}}</div>
