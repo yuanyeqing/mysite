@@ -98,6 +98,18 @@
                         {% endfor %}
                         </ul>
                     </div>
+                    <br><br>
+                    <div>
+                        <p><strong><span class="glyphicon glyphicon-time"></span> 日期存档</strong></p>
+                        <DIV style="BORDER-TOP: #d2d2d2 1px solid; OVERFLOW: hidden; HEIGHT: 1px"></DIV>
+                        <ul>
+                        {% for d in date_list %}
+                            <li class="post-category post-category-js">
+                                <a href="{% url 'date_archives' y=d.year m=d.month %}">{{ d |date:'Y年m月' }}</a>
+                            </li>
+                        {% endfor %}
+                        </ul>
+                    </div>
 {#                </div>#}
             </div>
         </div>

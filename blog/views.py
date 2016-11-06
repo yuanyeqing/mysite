@@ -1,3 +1,4 @@
+#coding:utf-8
 from .models import Article
 from django.shortcuts import render, get_object_or_404
 from .forms import PostForm
@@ -25,8 +26,8 @@ def get_tags():
 def post_list(request):
     postsAll = Article.objects.annotate(num_comment=Count('id')).filter(
         published_date__isnull=False).order_by('-published_date')
-    for p in postsAll:
-        p.click = cache_manager.get_click(p)
+    # for p in postsAll:
+    #     p.click = cache_manager.get_click(p)
     tags = [str(p.category) for p in postsAll if str(p.category) != '']
     tags = Counter(tags)
     paginator = Paginator(postsAll, 5)  # Show 10 contacts per page
@@ -43,7 +44,8 @@ def post_list(request):
     finally:
         for pp in posts:
             pp.text = markdown2.markdown(pp.text, extras=['fenced-code-blocks'], )
-    return render(request, 'blog/post_list.html', {'posts': posts, 'page': True, 'tags': tags})
+    return render(request, 'blog/post_list.html', {'posts': posts, 'page': True,
+                                                   'tags': tags, 'date_list': date_list()})
 
 
 def post_detail(request, pk):
@@ -54,7 +56,7 @@ def post_detail(request, pk):
     tags = [str(p.category) for p in postsAll if str(p.category) != '']
     tags = Counter(tags)
     if post.published_date == None:
-        return render(request, 'blog/post_detail.html', {'post': post, 'tags': tags})
+        return render(request, 'blog/post_detail.html', {'post': post, 'tags': tags, 'date_list': date_list()})
     else:
         page_list = list(postsAll)
         if post == page_list[-1]:
@@ -67,8 +69,8 @@ def post_detail(request, pk):
             situ = page_list.index(post)
             before_page = page_list[situ-1]
             after_page = page_list[situ+1]
-        return render(request, 'blog/post_detail.html',
-                      {'post': post, 'tags': tags, 'before_page': before_page, 'after_page': after_page})
+        return render(request, 'blog/post_detail.html',{'post': post, 'tags': tags,
+                        'before_page': before_page, 'after_page': after_page, 'date_list': date_list()})
 
 
 @login_required
@@ -82,7 +84,7 @@ def post_new(request):
             return redirect('post_detail', pk=post.pk)
     else:
         form = PostForm()
-    return render(request, 'blog/post_edit.html', {'form': form, 'tags': get_tags()})
+    return render(request, 'blog/post_edit.html', {'form': form, 'tags': get_tags(), 'date_list': date_list()})
 
 
 @login_required
@@ -97,7 +99,7 @@ def post_edit(request, pk):
             return redirect('post_detail', pk=post.pk)
     else:
         form = PostForm(instance=post)
-    return render(request, 'blog/post_edit.html', {'form': form, 'tags': get_tags()})
+    return render(request, 'blog/post_edit.html', {'form': form, 'tags': get_tags(), 'date_list': date_list()})
 
 
 @login_required
@@ -105,7 +107,7 @@ def post_draft_list(request):
     posts = Article.objects.filter(published_date__isnull=True).order_by('-created_date')
     for pp in posts:
         pp.text = markdown2.markdown(pp.text, extras=['fenced-code-blocks'], )
-    return render(request, 'blog/post_draft_list.html', {'posts': posts, 'tags': get_tags()})
+    return render(request, 'blog/post_draft_list.html', {'posts': posts, 'tags': get_tags(), 'date_list': date_list()})
 
 
 @login_required
@@ -127,11 +129,12 @@ def archives(request):
         post_list = Article.objects.all().filter(published_date__isnull=False).order_by('-published_date')
     except Article.DoesNotExist:
         raise Http404
-    return render(request, 'blog/archives.html', {'post_list': post_list, 'error': False, 'tags': get_tags()})
+    return render(request, 'blog/archives.html', {'post_list': post_list, 'error': False,
+                                                  'tags': get_tags(), 'date_list': date_list()})
 
 
 def about_me(request):
-    return render(request, 'blog/aboutme.html', {'tags': get_tags()})
+    return render(request, 'blog/aboutme.html', {'tags': get_tags(), 'date_list': date_list()})
 
 
 def search_tag(request, tag):
@@ -142,7 +145,7 @@ def search_tag(request, tag):
             pp.text = markdown2.markdown(pp.text, extras=['fenced-code-blocks'], )
     except Article.DoesNotExist:
         raise Http404
-    return render(request, 'blog/tag.html', {'post_list': post_list, 'tags': get_tags()})
+    return render(request, 'blog/tag.html', {'post_list': post_list, 'tags': get_tags(), 'date_list': date_list()})
 
 
 class RSSFeed(Feed):
@@ -165,15 +168,29 @@ def blog_search(request):
     if 's' in request.GET:
         s = request.GET['s']
         if not s:
-            return render(request,'blog/post_list.html')
+            return render(request, 'blog/post_list.html', {'tags': get_tags(), 'date_list': date_list()})
         else:
             post_list = Article.objects.filter(title__icontains = s).order_by('-published_date')
             post_num = len(post_list)
-            if post_num == 0:
-                return render(request, 'blog/search.html', {'post_list': post_list, 'error': True})
+            if post_num == 0 :
+                return render(request, 'blog/search.html', {'post_list': post_list, 'error': True, 'tags': get_tags(),
+                                                            'date_list': date_list()})
             else:
                 for pp in post_list:
                     pp.text = markdown2.markdown(pp.text, extras=['fenced-code-blocks'], )
                 return render(request, 'blog/search.html', {'post_list': post_list, 'error': False, 'tags': get_tags(),
-                                                            'post_num': post_num, 's': s})
+                                                            'post_num': post_num, 's': s, 'date_list': date_list()})
     return redirect('/')
+
+def date_list():
+    date_list = Article.objects.datetimes('published_date', 'month', order='DESC')
+    return date_list
+
+def date_archives(request, y, m):
+    posts = Article.objects.annotate(num_comment=Count('id')).filter(
+        published_date__isnull=False, published_date__year=y,
+        published_date__month=m).order_by('-published_date')
+    for pp in posts:
+        pp.text = markdown2.markdown(pp.text, extras=['fenced-code-blocks'], )
+    return render(request, 'blog/post_list.html', {'posts': posts, 'list_header': '{0}年{1}月 存档'.format(y, m),
+                                                   'tags': get_tags(), 'date_list': date_list()})

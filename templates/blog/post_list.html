@@ -1,6 +1,8 @@
 {% extends 'blog/base.html' %}
 {% block content %}
-
+    {% if list_header %}
+        <div class="box">{{ list_header }}</div>
+    {% endif %}
     {% for post in posts %}
 {#        <div class="post">#}
             <div class="date">

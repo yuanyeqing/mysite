@@ -32,6 +32,7 @@ urlpatterns = [
     url(r'^tag(?P<tag>\w+)/$', views.search_tag, name='search_tag'),
     url(r'^feed/$', views.RSSFeed(), name="RSS"),
     url(r'^search/$', views.blog_search, name='search'),
+    url(r'^articles/datearchive/(?P<y>[0-9]{4})/(?P<m>[0-9]{1,2})$', views.date_archives, name='date_archives'),
     url(r'^accounts/login/$', django.contrib.auth.views.login, name='login'),
     url(r'^accounts/logout/$', django.contrib.auth.views.logout, name='logout', kwargs={'next_page': '/'}),
 ]
