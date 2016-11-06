@@ -10,29 +10,25 @@ from .commons import cache_manager
 from django.contrib.auth.decorators import login_required
 from django.contrib.syndication.views import Feed
 import markdown2
+from collections import Counter
 # Create your views here.
 
 
 def get_tags():
     postsAll = Article.objects.annotate(num_comment=Count('id')).filter(
-        published_date__isnull=False).order_by('-published_date')
-    tags = list()
-    for p in postsAll:
-        tags.append(str(p.category))
-    tags = set(tags)
-    tags = [x for x in tags if x != '']
+        published_date__isnull=False)
+    tags = [str(p.category) for p in postsAll if str(p.category) != '']
+    tags = Counter(tags)
     return tags
 
 
 def post_list(request):
     postsAll = Article.objects.annotate(num_comment=Count('id')).filter(
         published_date__isnull=False).order_by('-published_date')
-    tags = list()
     for p in postsAll:
         p.click = cache_manager.get_click(p)
-        tags.append(str(p.category))
-    tags = set(tags)
-    tags = [x for x in tags if x != '']
+    tags = [str(p.category) for p in postsAll if str(p.category) != '']
+    tags = Counter(tags)
     paginator = Paginator(postsAll, 5)  # Show 10 contacts per page
     page = request.GET.get('page')
     posts = []
@@ -55,11 +51,8 @@ def post_detail(request, pk):
     post.text = markdown2.markdown(post.text, extras=['fenced-code-blocks'], )
     postsAll = Article.objects.annotate(num_comment=Count('id')).filter(
         published_date__isnull=False).order_by('-published_date')
-    tags = list()
-    for p in postsAll:
-        tags.append(str(p.category))
-    tags = set(tags)
-    tags = [x for x in tags if x != '']
+    tags = [str(p.category) for p in postsAll if str(p.category) != '']
+    tags = Counter(tags)
     if post.published_date == None:
         return render(request, 'blog/post_detail.html', {'post': post, 'tags': tags})
     else:

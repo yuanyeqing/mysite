@@ -91,7 +91,9 @@
                         <DIV style="BORDER-TOP: #d2d2d2 1px solid; OVERFLOW: hidden; HEIGHT: 1px"></DIV>
                         <ul>
                         {% for x in tags %}
-                            <li class="post-category post-category-js"><a href="{% url 'search_tag' tag=x %}">{{ x|title }}</a></li>
+                            <li class="post-category post-category-js">
+                                <a href="{% url 'search_tag' tag=x %}">{{ x|title }}</a><font color="#a9a9a9"> ({{tags|key:x}})</font>
+                            </li>
                         {% endfor %}
                         </ul>
                     </div>
