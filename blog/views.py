@@ -173,5 +173,6 @@ def blog_search(request):
             else:
                 for pp in post_list:
                     pp.text = markdown2.markdown(pp.text, extras=['fenced-code-blocks'], )
-                return render(request, 'blog/search.html', {'post_list': post_list, 'error': False, 'tags': get_tags()})
+                return render(request, 'blog/search.html', {'post_list': post_list, 'error': False, 'tags': get_tags(),
+                                                            'post_num': post_num, 's': s})
     return redirect('/')
